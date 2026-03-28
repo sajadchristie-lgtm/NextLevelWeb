@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CarStatus {
+  AVAILABLE
+  SOLD
+  HIDDEN
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum InquiryKind {
+  CONTACT
+  CAR
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+}
+
+model Car {
+  id           String      @id @default(cuid())
+  slug         String      @unique
+  title        String
+  brand        String
+  model        String
+  year         Int
+  price        Float
+  description  String
+  mileage      Int
+  fuelType     String
+  transmission String
+  color        String
+  condition    String
+  status       CarStatus   @default(AVAILABLE)
+  featured     Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  images       CarImage[]
+  discount     Discount?
+  inquiries    Inquiry[]
+}
+
+model CarImage {
+  id        String   @id @default(cuid())
+  carId     String
+  imageUrl  String
+  imageName String
+  altText   String?
+  sortOrder Int      @default(0)
+  isCover   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  car       Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+}
+
+model Discount {
+  id        String       @id @default(cuid())
+  carId     String       @unique
+  type      DiscountType
+  value     Float
+  isActive  Boolean      @default(true)
+  startDate DateTime?
+  endDate   DateTime?
+  createdAt DateTime     @default(now())
+  car       Car          @relation(fields: [carId], references: [id], onDelete: Cascade)
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  title     String
+  content   String
+  jsonData  String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Inquiry {
+  id        String      @id @default(cuid())
+  kind      InquiryKind @default(CONTACT)
+  carId     String?
+  name      String
+  email     String
+  phone     String?
+  message   String
+  createdAt DateTime    @default(now())
+  car       Car?        @relation(fields: [carId], references: [id], onDelete: SetNull)
+}

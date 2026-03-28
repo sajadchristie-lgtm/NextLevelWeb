@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color: #0f1720;
+    background:
+      radial-gradient(circle at top left, rgba(186, 125, 74, 0.14), transparent 32%),
+      linear-gradient(180deg, #fffdf9 0%, #f7f3ec 100%);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-sand font-body text-ink antialiased;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .container-shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .panel {
+    @apply rounded-[28px] border border-line bg-white/85 shadow-card backdrop-blur;
+  }
+
+  .eyebrow {
+    @apply inline-flex rounded-full border border-bronze/20 bg-bronze/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-ember;
+  }
+
+  .section-title {
+    @apply font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl;
+  }
+
+  .muted-copy {
+    @apply text-sm leading-7 text-slate-600 sm:text-base;
+  }
+
+  .primary-button {
+    @apply inline-flex items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800;
+  }
+
+  .secondary-button {
+    @apply inline-flex items-center justify-center rounded-full border border-line bg-white px-5 py-3 text-sm font-semibold text-ink transition hover:border-bronze/50 hover:text-ember;
+  }
+
+  .field {
+    @apply w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm text-ink outline-none transition placeholder:text-slate-400 focus:border-bronze focus:ring-2 focus:ring-bronze/20;
+  }
+
+  .admin-nav-link {
+    @apply rounded-2xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-sand hover:text-ink;
+  }
+
+  .admin-nav-link-active {
+    @apply bg-ink text-white hover:bg-ink hover:text-white;
+  }
+}
+

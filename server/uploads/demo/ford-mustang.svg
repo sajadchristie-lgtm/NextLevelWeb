@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#FFF2F1"/>
+  <rect x="80" y="100" width="1440" height="700" rx="48" fill="#FFF9F8" stroke="#F4D3CF" stroke-width="4"/>
+  <text x="120" y="210" fill="#8C2F23" font-family="Arial, sans-serif" font-size="38" font-weight="700">Ford Mustang GT Premium</text>
+  <text x="120" y="260" fill="#6B7280" font-family="Arial, sans-serif" font-size="22">Performance coupe</text>
+  <path d="M242 597C242 535 292 485 354 485H874C940 485 998 462 1056 415L1153 337C1181 315 1216 302 1252 302H1304C1357 302 1400 345 1400 398V597H242Z" fill="#C24131"/>
+  <circle cx="444" cy="607" r="79" fill="#1F2937"/>
+  <circle cx="444" cy="607" r="41" fill="#E5E7EB"/>
+  <circle cx="1158" cy="607" r="79" fill="#1F2937"/>
+  <circle cx="1158" cy="607" r="41" fill="#E5E7EB"/>
+  <rect x="435" y="401" width="416" height="84" rx="26" fill="#8C2F23"/>
+  <rect x="865" y="389" width="173" height="76" rx="22" fill="#8C2F23"/>
+  <path d="M1060 425H1188" stroke="#FFE1B0" stroke-width="10" stroke-linecap="round"/>
+</svg>

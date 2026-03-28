@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#EEF1F4"/>
+  <rect x="80" y="100" width="1440" height="700" rx="48" fill="#FAFBFC" stroke="#DDE3E8" stroke-width="4"/>
+  <text x="120" y="210" fill="#374151" font-family="Arial, sans-serif" font-size="38" font-weight="700">Audi A6 Quattro</text>
+  <text x="120" y="260" fill="#6B7280" font-family="Arial, sans-serif" font-size="22">Executive sedan</text>
+  <path d="M250 590C250 526 302 474 366 474H884C951 474 1018 451 1065 411L1142 344C1172 317 1211 302 1251 302H1310C1364 302 1408 346 1408 400V590H250Z" fill="#707882"/>
+  <circle cx="454" cy="603" r="79" fill="#1F2937"/>
+  <circle cx="454" cy="603" r="42" fill="#D1D5DB"/>
+  <circle cx="1169" cy="603" r="79" fill="#1F2937"/>
+  <circle cx="1169" cy="603" r="42" fill="#D1D5DB"/>
+  <rect x="442" y="387" width="430" height="87" rx="26" fill="#505964"/>
+  <rect x="885" y="377" width="168" height="82" rx="22" fill="#505964"/>
+  <path d="M1068 419H1181" stroke="#F5F5F5" stroke-width="8" stroke-linecap="round"/>
+</svg>

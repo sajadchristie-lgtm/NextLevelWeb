@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#F6F1E7"/>
+  <rect x="80" y="100" width="1440" height="700" rx="48" fill="#FFFDF8" stroke="#E8DEC9" stroke-width="4"/>
+  <text x="120" y="210" fill="#7A3E1C" font-family="Arial, sans-serif" font-size="38" font-weight="700">Toyota Land Cruiser VXR</text>
+  <text x="120" y="260" fill="#6B7280" font-family="Arial, sans-serif" font-size="22">Full-size SUV</text>
+  <path d="M190 575C190 491 258 423 342 423H948C1026 423 1084 404 1147 364L1223 317C1260 294 1302 282 1345 282H1387C1425 282 1456 313 1456 351V575H190Z" fill="#F2F4F7"/>
+  <circle cx="447" cy="592" r="86" fill="#1F2937"/>
+  <circle cx="447" cy="592" r="47" fill="#CBD5E1"/>
+  <circle cx="1227" cy="592" r="86" fill="#1F2937"/>
+  <circle cx="1227" cy="592" r="47" fill="#CBD5E1"/>
+  <rect x="420" y="350" width="515" height="99" rx="26" fill="#E2E8F0"/>
+  <rect x="962" y="337" width="190" height="87" rx="22" fill="#E2E8F0"/>
+  <path d="M189 506H1454" stroke="#E2E8F0" stroke-width="18" stroke-linecap="round"/>
+</svg>
+
