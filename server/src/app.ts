@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import path from "node:path";
 import { ZodError } from "zod";
 import { config } from "./config.js";
 import { publicRouter } from "./routes/public.js";
@@ -15,6 +16,7 @@ app.use(
 );
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
+app.use("/uploads/demo", express.static(path.resolve(process.cwd(), "uploads", "demo")));
 app.use("/uploads", express.static(config.uploadsDir));
 
 app.get("/api/health", (_request, response) => {
