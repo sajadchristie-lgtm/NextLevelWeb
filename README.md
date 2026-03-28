@@ -144,7 +144,8 @@ Default development admin credentials:
 
 - Connect the repo to Netlify.
 - Use the root-level `netlify.toml`.
-- Set `VITE_API_URL` to your Northflank backend URL.
+- For local development, set `VITE_API_URL` to your backend URL.
+- On Netlify, the included proxy rules forward `/api/*` and `/uploads/*` to the configured Northflank backend, so the deployed site can use same-origin requests for better cookie support on mobile browsers.
 - Set `VITE_ADMIN_BASE_PATH` to your hidden admin path.
 
 ### Northflank (backend)

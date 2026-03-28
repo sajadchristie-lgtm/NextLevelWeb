@@ -1,4 +1,4 @@
-const API_BASE_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/g, "");
+import { getApiBaseUrl } from "./api-base";
 
 export function resolveAssetUrl(value: string | null | undefined) {
   if (!value) {
@@ -9,9 +9,11 @@ export function resolveAssetUrl(value: string | null | undefined) {
     return value;
   }
 
-  if (!API_BASE_URL) {
+  const apiBaseUrl = getApiBaseUrl();
+
+  if (!apiBaseUrl) {
     return value;
   }
 
-  return value.startsWith("/") ? `${API_BASE_URL}${value}` : `${API_BASE_URL}/${value}`;
+  return value.startsWith("/") ? `${apiBaseUrl}${value}` : `${apiBaseUrl}/${value}`;
 }

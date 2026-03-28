@@ -1,7 +1,6 @@
 import { clearAuthToken, getAuthToken } from "./auth";
 import type { AdminUser, Car, DashboardData, HomeData, Inquiry, Service, SiteContent } from "../types";
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+import { resolveApiUrl } from "./api-base";
 
 type FetchOptions = RequestInit & {
   auth?: boolean;
@@ -21,7 +20,7 @@ async function apiFetch<T>(path: string, options: FetchOptions = {}): Promise<T>
     headers.set("Content-Type", "application/json");
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(resolveApiUrl(path), {
     ...options,
     credentials: "include",
     headers
