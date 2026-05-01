@@ -41,14 +41,14 @@ export function AdminLoginPage() {
       <div className="panel w-full max-w-md p-6 sm:p-8">
         <div className="mb-6 flex justify-end">
           <div className="rounded-[22px] border border-[#d8b36a] bg-[linear-gradient(135deg,#fff3cf_0%,#ffe3b2_52%,#fff8ec_100%)] p-3 shadow-[0_16px_36px_rgba(111,78,17,0.14)]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink/70">{ui.languageLabel}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-onyx/70">{ui.languageLabel}</p>
             <div className="mt-3 grid grid-cols-2 gap-2">
               <button
                 type="button"
                 className={`rounded-[16px] border px-3 py-2 text-sm font-semibold transition ${
                   language === "en"
-                    ? "border-ink bg-ink text-white shadow-[0_10px_24px_rgba(24,28,34,0.2)]"
-                    : "border-white/80 bg-white/90 text-ink hover:bg-white"
+                    ? "border-onyx bg-onyx text-white shadow-[0_10px_24px_rgba(24,28,34,0.2)]"
+                    : "border-white/80 bg-white/90 text-onyx hover:bg-white"
                 }`}
                 onClick={() => setLanguage("en")}
               >
@@ -58,8 +58,8 @@ export function AdminLoginPage() {
                 type="button"
                 className={`rounded-[16px] border px-3 py-2 text-sm font-semibold transition ${
                   language === "sv"
-                    ? "border-ink bg-ink text-white shadow-[0_10px_24px_rgba(24,28,34,0.2)]"
-                    : "border-white/80 bg-white/90 text-ink hover:bg-white"
+                    ? "border-onyx bg-onyx text-white shadow-[0_10px_24px_rgba(24,28,34,0.2)]"
+                    : "border-white/80 bg-white/90 text-onyx hover:bg-white"
                 }`}
                 onClick={() => setLanguage("sv")}
               >

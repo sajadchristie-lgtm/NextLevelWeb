@@ -83,7 +83,7 @@ export function DefaultMark({
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="40" height="40" rx="10" fill="#0A0A0B" />
+      <rect width="40" height="40" rx="10" fill="#0B0C0E" />
       <text
         x="20"
         y="21.5"

@@ -140,8 +140,8 @@ export function AdminPricingPage() {
           <button type="button" className="btn-secondary" onClick={handleReset}>
             {ui.reset}
           </button>
-          {success ? <span className="text-sm text-pine">{success}</span> : null}
-          {error ? <span className="text-sm text-accentDeep">{error}</span> : null}
+          {success ? <span className="text-sm text-forest">{success}</span> : null}
+          {error ? <span className="text-sm text-bronze">{error}</span> : null}
         </div>
       </header>
 
@@ -157,7 +157,7 @@ export function AdminPricingPage() {
                 <div className="flex flex-wrap items-center gap-3">
                   <h2 className="h-card">{pkg.title[language]}</h2>
                   {pkg.featured ? (
-                    <span className="rounded-edge bg-ink px-2 py-0.5 text-[10px] font-medium uppercase tracking-editorial text-paper">
+                    <span className="rounded-edge bg-onyx px-2 py-0.5 text-[10px] font-medium uppercase tracking-editorial text-mist">
                       {t("services.featured")}
                     </span>
                   ) : null}
@@ -228,8 +228,8 @@ export function AdminPricingPage() {
         <button type="button" className="btn-secondary" onClick={handleReset}>
           {ui.reset}
         </button>
-        {success ? <span className="text-sm text-pine">{success}</span> : null}
-        {error ? <span className="text-sm text-accentDeep">{error}</span> : null}
+        {success ? <span className="text-sm text-forest">{success}</span> : null}
+        {error ? <span className="text-sm text-bronze">{error}</span> : null}
       </div>
     </div>
   );
@@ -247,7 +247,7 @@ function PriceField({
   currency: string;
 }) {
   return (
-    <label className="flex flex-col gap-1.5 rounded-edge border border-line bg-paper px-4 py-3 transition focus-within:border-ink">
+    <label className="flex flex-col gap-1.5 rounded-edge border border-line bg-mist px-4 py-3 transition focus-within:border-onyx">
       <span className="text-[11px] font-medium uppercase tracking-editorial text-slate">{label}</span>
       <div className="flex items-baseline gap-2">
         <input
@@ -255,7 +255,7 @@ function PriceField({
           min={0}
           step={50}
           inputMode="numeric"
-          className="w-full bg-transparent font-display text-xl font-semibold text-ink outline-none"
+          className="w-full bg-transparent font-display text-xl font-semibold text-onyx outline-none"
           value={Number.isFinite(value) ? value : 0}
           onChange={(event) => onChange(Number(event.target.value))}
         />

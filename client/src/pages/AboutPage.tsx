@@ -39,7 +39,7 @@ export function AboutPage() {
           <ul className="lg:col-span-7 grid gap-4 sm:grid-cols-2">
             {values.map((value, i) => (
               <li key={value} className="flex gap-4">
-                <span className="text-sm font-medium text-accent">0{i + 1}</span>
+                <span className="text-sm font-medium text-champagne">0{i + 1}</span>
                 <span className="text-base leading-relaxed">{value}</span>
               </li>
             ))}
@@ -49,7 +49,7 @@ export function AboutPage() {
 
       {/* CLOSING */}
       <section className="container-shell">
-        <div className="rounded-card border border-line bg-soft p-10 sm:p-12">
+        <div className="rounded-card border border-line bg-linen p-10 sm:p-12">
           <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7 space-y-3">
               <h2 className="h-section">{t("closing.title")}</h2>

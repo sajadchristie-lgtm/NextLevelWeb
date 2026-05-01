@@ -22,7 +22,7 @@ export function AdminDashboardPage() {
   }
 
   if (!data) {
-    return <div className="panel p-6 text-slate-500">{t("home.loading")}</div>;
+    return <div className="panel p-6 text-slate-500">{t("loading")}</div>;
   }
 
   const statCards = [
@@ -35,7 +35,7 @@ export function AdminDashboardPage() {
       <div className="panel p-6 sm:p-8">
         <span className="eyebrow">{t("admin.dashboard.eyebrow")}</span>
         <h1 className="section-title mt-4">{t("admin.dashboard.title")}</h1>
-        <p className="muted-copy mt-4">{t("admin.dashboard.copy")}</p>
+        <p className="gravel-copy mt-4">{t("admin.dashboard.copy")}</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -59,7 +59,7 @@ export function AdminDashboardPage() {
             data.recentInquiries.map((inquiry) => (
               <div key={inquiry.id} className="rounded-[24px] border border-line bg-white p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-semibold text-ink">{inquiry.name}</p>
+                  <p className="font-semibold text-onyx">{inquiry.name}</p>
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
                     {inquiry.kind === "CAR" ? t("admin.dashboard.kindCar") : t("admin.dashboard.kindContact")}
                   </p>

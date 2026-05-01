@@ -179,7 +179,7 @@ export function AdminBrandingPage() {
             {ui.currentLogo}
           </p>
           <div className="flex items-center gap-5">
-            <div className="rounded-edge border border-line bg-soft p-4">
+            <div className="rounded-edge border border-line bg-linen p-4">
               {logoUrl ? (
                 <img
                   src={resolveAssetUrl(logoUrl)}
@@ -219,7 +219,7 @@ export function AdminBrandingPage() {
 
           {previewUrl ? (
             <div className="flex items-center gap-5">
-              <div className="rounded-edge border border-line bg-soft p-4">
+              <div className="rounded-edge border border-line bg-linen p-4">
                 <img
                   src={previewUrl}
                   alt="Preview"
@@ -227,7 +227,7 @@ export function AdminBrandingPage() {
                 />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-ink">{pendingFile?.name}</p>
+                <p className="text-sm font-medium text-onyx">{pendingFile?.name}</p>
                 <p className="mt-1 text-xs text-slate">
                   {pendingFile ? `${(pendingFile.size / 1024).toFixed(1)} KB` : null}
                 </p>
@@ -253,7 +253,7 @@ export function AdminBrandingPage() {
             </div>
           ) : (
             <label
-              className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-card border border-dashed border-line bg-soft px-6 py-12 text-center transition hover:border-ink/30 hover:bg-paper"
+              className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-card border border-dashed border-line bg-linen px-6 py-12 text-center transition hover:border-onyx/30 hover:bg-mist"
               onDragOver={(event) => {
                 event.preventDefault();
               }}
@@ -266,7 +266,7 @@ export function AdminBrandingPage() {
               <span className="btn-secondary">
                 {logoUrl ? ui.replace : ui.choose}
               </span>
-              <span className="text-xs text-muted">{ui.dropHint}</span>
+              <span className="text-xs text-gravel">{ui.dropHint}</span>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -279,8 +279,8 @@ export function AdminBrandingPage() {
         </div>
       </section>
 
-      {success ? <p className="text-sm text-pine">{success}</p> : null}
-      {error ? <p className="text-sm text-accentDeep">{error}</p> : null}
+      {success ? <p className="text-sm text-forest">{success}</p> : null}
+      {error ? <p className="text-sm text-bronze">{error}</p> : null}
 
       <section className="space-y-3">
         <p className="text-xs font-semibold uppercase tracking-editorial text-slate">

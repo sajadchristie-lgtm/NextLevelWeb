@@ -104,8 +104,8 @@ export function ContactPage() {
                   {t("contact.viewServices")} <span aria-hidden>→</span>
                 </Link>
               </div>
-              {success ? <p className="text-sm text-pine">{success}</p> : null}
-              {formError ? <p className="text-sm text-accentDeep">{formError}</p> : null}
+              {success ? <p className="text-sm text-forest">{success}</p> : null}
+              {formError ? <p className="text-sm text-bronze">{formError}</p> : null}
             </form>
           </div>
 

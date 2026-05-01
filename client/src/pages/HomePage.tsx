@@ -46,7 +46,7 @@ export function HomePage() {
               {t("home.secondaryCta")}
             </Link>
             {phone ? (
-              <a href={`tel:${phone}`} className="ml-2 text-sm font-medium text-slate hover:text-ink">
+              <a href={`tel:${phone}`} className="ml-2 text-sm font-medium text-slate hover:text-onyx">
                 {phone}
               </a>
             ) : null}
@@ -70,16 +70,16 @@ export function HomePage() {
           {SERVICE_PACKAGES.map((pkg) => (
             <Link key={pkg.slug} to="/services" className="card-hover group flex flex-col">
               <div className="flex items-baseline justify-between gap-4">
-                <h3 className="h-card group-hover:text-accent">{pkg.title[language]}</h3>
+                <h3 className="h-card group-hover:text-champagne">{pkg.title[language]}</h3>
                 <p className="meta">
                   {t("services.fromLabel")}{" "}
-                  <span className="font-semibold text-ink">
+                  <span className="font-semibold text-onyx">
                     {formatPrice(getPackagePrice(pricing, pkg.slug, "small"), language)}
                   </span>
                 </p>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-slate">{pkg.tagline[language]}</p>
-              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-ink">
+              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-onyx">
                 {t("services.book")} <span aria-hidden>→</span>
               </span>
             </Link>
@@ -96,7 +96,7 @@ export function HomePage() {
         <ol className="mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, i) => (
             <li key={step.title} className="space-y-2">
-              <p className="text-sm font-medium text-accent">0{i + 1}</p>
+              <p className="text-sm font-medium text-champagne">0{i + 1}</p>
               <h3 className="font-display text-base font-semibold">{step.title}</h3>
               <p className="text-sm leading-relaxed text-slate">{step.copy}</p>
             </li>
@@ -106,11 +106,11 @@ export function HomePage() {
 
       {/* CLOSING */}
       <section className="container-shell">
-        <div className="rounded-card bg-ink p-10 text-paper sm:p-14">
+        <div className="rounded-card bg-onyx p-10 text-mist sm:p-14">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7 space-y-4">
-              <h2 className="h-section text-paper">{t("closing.title")}</h2>
-              <p className="text-base leading-relaxed text-paper/70">{t("closing.copy")}</p>
+              <h2 className="h-section text-mist">{t("closing.title")}</h2>
+              <p className="text-base leading-relaxed text-mist/70">{t("closing.copy")}</p>
             </div>
             <div className="lg:col-span-5 flex flex-wrap gap-3 lg:justify-end">
               <Link to="/contact" className="btn-light-on-dark">

@@ -36,7 +36,7 @@ export function PublicLayout() {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-30 border-b border-line bg-paper/85 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-line bg-mist/85 backdrop-blur">
         <div className="container-shell flex items-center justify-between py-4">
           <Link
             to="/"
@@ -57,7 +57,7 @@ export function PublicLayout() {
                 end={item.to === "/"}
                 className={({ isActive }) =>
                   `px-3 py-2 text-sm font-medium transition ${
-                    isActive ? "text-ink" : "text-slate hover:text-ink"
+                    isActive ? "text-onyx" : "text-slate hover:text-onyx"
                   }`
                 }
               >
@@ -68,17 +68,17 @@ export function PublicLayout() {
               <button
                 type="button"
                 className={`px-2.5 py-1 text-xs font-medium uppercase transition ${
-                  language === "sv" ? "text-ink" : "text-muted hover:text-ink"
+                  language === "sv" ? "text-onyx" : "text-gravel hover:text-onyx"
                 }`}
                 onClick={() => setLanguage("sv")}
               >
                 {t("lang.sv")}
               </button>
-              <span className="text-muted">/</span>
+              <span className="text-gravel">/</span>
               <button
                 type="button"
                 className={`px-2.5 py-1 text-xs font-medium uppercase transition ${
-                  language === "en" ? "text-ink" : "text-muted hover:text-ink"
+                  language === "en" ? "text-onyx" : "text-gravel hover:text-onyx"
                 }`}
                 onClick={() => setLanguage("en")}
               >
@@ -97,9 +97,9 @@ export function PublicLayout() {
             aria-label="Toggle navigation"
           >
             <div className="flex w-5 flex-col gap-1">
-              <span className="h-px bg-ink" />
-              <span className="h-px bg-ink" />
-              <span className="h-px bg-ink" />
+              <span className="h-px bg-onyx" />
+              <span className="h-px bg-onyx" />
+              <span className="h-px bg-onyx" />
             </div>
           </button>
         </div>
@@ -114,7 +114,7 @@ export function PublicLayout() {
                 onClick={() => setMenuOpen(false)}
                 className={({ isActive }) =>
                   `rounded-edge px-3 py-3 text-sm font-medium transition ${
-                    isActive ? "bg-ink text-paper" : "text-slate"
+                    isActive ? "bg-onyx text-mist" : "text-slate"
                   }`
                 }
               >
@@ -125,17 +125,17 @@ export function PublicLayout() {
               <button
                 type="button"
                 className={`px-2.5 py-1 text-xs font-medium uppercase ${
-                  language === "sv" ? "text-ink" : "text-muted"
+                  language === "sv" ? "text-onyx" : "text-gravel"
                 }`}
                 onClick={() => setLanguage("sv")}
               >
                 {t("lang.sv")}
               </button>
-              <span className="text-muted">/</span>
+              <span className="text-gravel">/</span>
               <button
                 type="button"
                 className={`px-2.5 py-1 text-xs font-medium uppercase ${
-                  language === "en" ? "text-ink" : "text-muted"
+                  language === "en" ? "text-onyx" : "text-gravel"
                 }`}
                 onClick={() => setLanguage("en")}
               >
@@ -157,7 +157,7 @@ export function PublicLayout() {
         <Outlet />
       </main>
 
-      <footer className="border-t border-line bg-paper py-12">
+      <footer className="border-t border-line bg-mist py-12">
         <div className="container-shell">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div className="space-y-3">
@@ -179,7 +179,7 @@ export function PublicLayout() {
               <ul className="mt-4 space-y-2 text-sm text-slate">
                 {navItems.map((item) => (
                   <li key={item.to}>
-                    <Link to={item.to} className="transition hover:text-ink">
+                    <Link to={item.to} className="transition hover:text-onyx">
                       {item.label}
                     </Link>
                   </li>
@@ -194,14 +194,14 @@ export function PublicLayout() {
               <ul className="mt-4 space-y-2 text-sm text-slate">
                 {phone ? (
                   <li>
-                    <a href={`tel:${phone}`} className="text-ink transition hover:text-accent">
+                    <a href={`tel:${phone}`} className="text-onyx transition hover:text-champagne">
                       {phone}
                     </a>
                   </li>
                 ) : null}
                 {email ? (
                   <li>
-                    <a href={`mailto:${email}`} className="transition hover:text-ink">
+                    <a href={`mailto:${email}`} className="transition hover:text-onyx">
                       {email}
                     </a>
                   </li>
@@ -220,7 +220,7 @@ export function PublicLayout() {
             </div>
           </div>
 
-          <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-xs text-gravel sm:flex-row sm:items-center sm:justify-between">
             <p>
               © {new Date().getFullYear()} Bilvård center i Kävlinge. {t("footer.rights")}
             </p>

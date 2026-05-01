@@ -305,7 +305,7 @@ export function AdminContentPage() {
         <div className="panel p-6 sm:p-8">
         <span className="eyebrow">{t("admin.content.eyebrow")}</span>
         <h1 className="section-title mt-4">{t("admin.content.title")}</h1>
-        <p className="muted-copy mt-4">{t("admin.content.copy")}</p>
+        <p className="gravel-copy mt-4">{t("admin.content.copy")}</p>
       </div>
 
       {error ? <div className="panel p-5 text-ember">{error}</div> : null}

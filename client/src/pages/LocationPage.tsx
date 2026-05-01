@@ -41,7 +41,7 @@ export function LocationPage() {
       {/* MAP + DETAILS */}
       <section className="container-shell">
         <div className="grid gap-6 lg:grid-cols-12">
-          <div className="lg:col-span-7 overflow-hidden rounded-card border border-line bg-paper">
+          <div className="lg:col-span-7 overflow-hidden rounded-card border border-line bg-mist">
             {mapEmbedUrl ? (
               <iframe
                 title="Workshop location"
@@ -51,7 +51,7 @@ export function LocationPage() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
             ) : (
-              <div className="flex min-h-[420px] items-center justify-center bg-soft text-slate">
+              <div className="flex min-h-[420px] items-center justify-center bg-linen text-slate">
                 {t("location.mapUnavailable")}
               </div>
             )}
@@ -87,7 +87,7 @@ export function LocationPage() {
                 <p className="text-xs font-semibold uppercase tracking-editorial text-slate">
                   {t("location.phoneShortcut")}
                 </p>
-                <p className="mt-3 font-display text-xl font-semibold text-accent">{phone}</p>
+                <p className="mt-3 font-display text-xl font-semibold text-champagne">{phone}</p>
               </a>
             ) : null}
           </div>

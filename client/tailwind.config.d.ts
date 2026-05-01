@@ -3,23 +3,43 @@ declare const _default: {
     theme: {
         extend: {
             colors: {
-                ink: string;
-                sand: string;
-                shell: string;
+                onyx: string;
+                coal: string;
+                graphite: string;
+                slate: string;
+                gravel: string;
+                ash: string;
                 line: string;
+                linen: string;
+                porcelain: string;
+                mist: string;
+                champagne: string;
                 bronze: string;
-                ember: string;
-                pine: string;
+                forest: string;
+                sage: string;
             };
             fontFamily: {
-                display: [string, string];
-                body: [string, string];
+                display: [string, string, string, string];
+                body: [string, string, string, string, string, string, string];
+            };
+            letterSpacing: {
+                editorial: string;
+            };
+            borderRadius: {
+                sharp: string;
+                edge: string;
+                soft: string;
+                card: string;
+                well: string;
             };
             boxShadow: {
-                card: string;
+                hairline: string;
+                elev: string;
+                deep: string;
             };
             backgroundImage: {
-                "hero-glow": string;
+                "ink-gradient": string;
+                "ivory-gradient": string;
             };
         };
     };

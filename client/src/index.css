@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    color: #0A0A0B;
+    color: #0B0C0E;
     background-color: #FFFFFF;
   }
 
@@ -15,7 +15,7 @@
   }
 
   body {
-    @apply min-h-screen bg-paper font-body text-ink antialiased;
+    @apply min-h-screen bg-mist font-body text-onyx antialiased;
   }
 
   h1, h2, h3, h4 {
@@ -39,13 +39,13 @@
   }
 
   :focus-visible {
-    outline: 2px solid #0A0A0B;
+    outline: 2px solid #0B0C0E;
     outline-offset: 3px;
     border-radius: 4px;
   }
 
   ::selection {
-    background-color: #0A0A0B;
+    background-color: #0B0C0E;
     color: #FFFFFF;
   }
 }
@@ -57,11 +57,11 @@
 
   /* Cards — minimal, hairline border, subtle hover */
   .card {
-    @apply rounded-card border border-line bg-paper p-6;
+    @apply rounded-card border border-line bg-mist p-6;
   }
 
   .card-hover {
-    @apply rounded-card border border-line bg-paper p-6 transition duration-200 hover:border-ink/20 hover:shadow-card;
+    @apply rounded-card border border-line bg-mist p-6 transition duration-200 hover:border-onyx/20 hover:shadow-elev;
   }
 
   /* Type tokens */
@@ -86,25 +86,25 @@
   }
 
   .meta {
-    @apply text-sm text-muted;
+    @apply text-sm text-gravel;
   }
 
   /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-edge bg-ink px-5 py-3 text-sm font-medium text-paper transition duration-200 hover:bg-charcoal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink;
+    @apply inline-flex items-center justify-center gap-2 rounded-edge bg-onyx px-5 py-3 text-sm font-medium text-mist transition duration-200 hover:bg-coal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-onyx;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-edge border border-line bg-paper px-5 py-3 text-sm font-medium text-ink transition duration-200 hover:border-ink/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink;
+    @apply inline-flex items-center justify-center gap-2 rounded-edge border border-line bg-mist px-5 py-3 text-sm font-medium text-onyx transition duration-200 hover:border-onyx/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-onyx;
   }
 
   .btn-link {
-    @apply inline-flex items-center gap-1.5 text-sm font-medium text-ink transition hover:text-accent;
+    @apply inline-flex items-center gap-1.5 text-sm font-medium text-onyx transition hover:text-champagne;
   }
 
   /* Form fields */
   .field {
-    @apply w-full rounded-edge border border-line bg-paper px-4 py-3 text-sm text-ink outline-none transition placeholder:text-muted focus:border-ink;
+    @apply w-full rounded-edge border border-line bg-mist px-4 py-3 text-sm text-onyx outline-none transition placeholder:text-gravel focus:border-onyx;
   }
 
   /* Hairline divider */
@@ -114,24 +114,24 @@
 
   /* Admin */
   .admin-nav-link {
-    @apply rounded-edge px-4 py-2.5 text-sm font-medium text-slate transition hover:bg-soft hover:text-ink;
+    @apply rounded-edge px-4 py-2.5 text-sm font-medium text-slate transition hover:bg-linen hover:text-onyx;
   }
 
   .admin-nav-link-active {
-    @apply bg-ink text-paper hover:bg-ink hover:text-paper;
+    @apply bg-onyx text-mist hover:bg-onyx hover:text-mist;
   }
 
   /* Legacy aliases for older admin pages */
   .panel {
-    @apply rounded-card border border-line bg-paper;
+    @apply rounded-card border border-line bg-mist;
   }
 
   .panel-ivory {
-    @apply rounded-card border border-line bg-soft;
+    @apply rounded-card border border-line bg-linen;
   }
 
   .panel-onyx {
-    @apply rounded-card border border-ink bg-ink text-paper;
+    @apply rounded-card border border-onyx bg-onyx text-mist;
   }
 
   .eyebrow {
@@ -143,14 +143,14 @@
   }
 
   .editorial-label-light {
-    @apply inline-flex text-xs font-semibold uppercase tracking-editorial text-paper/70;
+    @apply inline-flex text-xs font-semibold uppercase tracking-editorial text-mist/70;
   }
 
   .section-title {
     @apply font-display text-3xl font-semibold leading-[1.15] sm:text-4xl;
   }
 
-  .muted-copy {
+  .gravel-copy {
     @apply text-base leading-relaxed text-slate;
   }
 
@@ -162,16 +162,16 @@
     @apply btn-secondary;
   }
 
-  .btn-primary-accent {
-    @apply inline-flex items-center justify-center gap-2 rounded-edge bg-accent px-5 py-3 text-sm font-medium text-paper transition duration-200 hover:bg-accentDeep;
+  .btn-primary-champagne {
+    @apply inline-flex items-center justify-center gap-2 rounded-edge bg-champagne px-5 py-3 text-sm font-medium text-mist transition duration-200 hover:bg-bronze;
   }
 
   .btn-light-on-dark {
-    @apply inline-flex items-center justify-center gap-2 rounded-edge bg-paper px-5 py-3 text-sm font-medium text-ink transition duration-200 hover:bg-soft;
+    @apply inline-flex items-center justify-center gap-2 rounded-edge bg-mist px-5 py-3 text-sm font-medium text-onyx transition duration-200 hover:bg-linen;
   }
 
   .btn-outline-on-dark {
-    @apply inline-flex items-center justify-center gap-2 rounded-edge border border-paper/30 bg-transparent px-5 py-3 text-sm font-medium text-paper transition duration-200 hover:border-paper hover:bg-paper/10;
+    @apply inline-flex items-center justify-center gap-2 rounded-edge border border-mist/30 bg-transparent px-5 py-3 text-sm font-medium text-mist transition duration-200 hover:border-mist hover:bg-mist/10;
   }
 
   .btn-ghost {
@@ -179,11 +179,11 @@
   }
 
   .closing-band {
-    @apply rounded-card bg-ink p-8 text-paper sm:p-12;
+    @apply rounded-card bg-onyx p-8 text-mist sm:p-12;
   }
 
   .field-dark {
-    @apply w-full rounded-edge border border-paper/15 bg-paper/5 px-4 py-3 text-sm text-paper outline-none transition placeholder:text-paper/40 focus:border-paper;
+    @apply w-full rounded-edge border border-mist/15 bg-mist/5 px-4 py-3 text-sm text-mist outline-none transition placeholder:text-mist/40 focus:border-mist;
   }
 
   .feature-card {
@@ -191,7 +191,7 @@
   }
 
   .step-number {
-    @apply font-display text-3xl font-semibold text-ink;
+    @apply font-display text-3xl font-semibold text-onyx;
   }
 
   .testimonial-card {
@@ -199,15 +199,15 @@
   }
 
   .faq-item {
-    @apply rounded-card border border-line bg-paper px-5 py-4 transition hover:border-ink/30;
+    @apply rounded-card border border-line bg-mist px-5 py-4 transition hover:border-onyx/30;
   }
 
   .price-cell {
-    @apply flex flex-col items-start rounded-edge border border-line bg-paper px-4 py-3 transition hover:border-ink/30;
+    @apply flex flex-col items-start rounded-edge border border-line bg-mist px-4 py-3 transition hover:border-onyx/30;
   }
 
   .metric {
-    @apply rounded-card border border-line bg-paper p-6;
+    @apply rounded-card border border-line bg-mist p-6;
   }
 
   .metric-value {
