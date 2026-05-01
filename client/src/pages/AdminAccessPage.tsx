@@ -4,6 +4,7 @@ import { startAdminAccess, checkAdminAccess } from "../lib/api";
 import { buildAdminPath } from "../lib/admin";
 import { getAuthToken } from "../lib/auth";
 import { useLanguage } from "../lib/i18n";
+import { BrandLogo } from "../components/BrandLogo";
 
 export function AdminAccessPage() {
   const navigate = useNavigate();
@@ -114,7 +115,7 @@ export function AdminAccessPage() {
             </div>
           </div>
         </div>
-        <img src="/logo.png" alt={"Bilv\u00e5rd center i K\u00e4vlinge logo"} className="h-16 w-16 rounded-3xl object-cover" />
+        <BrandLogo size={64} className="rounded-3xl" />
         <span className="eyebrow">{ui.eyebrow}</span>
         <h1 className="mt-4 font-display text-4xl">{ui.title}</h1>
         <p className="mt-3 text-sm leading-7 text-slate-600">{ui.copy}</p>

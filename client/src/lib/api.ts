@@ -140,6 +140,23 @@ export function saveAdminContent(key: string, payload: Record<string, unknown>) 
   });
 }
 
+export function uploadAdminLogo(file: File) {
+  const body = new FormData();
+  body.append("logo", file);
+  return apiFetch<{ content: SiteContent; logoUrl: string }>("/api/admin/branding/logo", {
+    method: "POST",
+    body,
+    auth: true
+  });
+}
+
+export function resetAdminLogo() {
+  return apiFetch<{ content: SiteContent | null }>("/api/admin/branding/logo", {
+    method: "DELETE",
+    auth: true
+  });
+}
+
 export function getAdminInquiries() {
   return apiFetch<{ inquiries: Inquiry[] }>("/api/admin/inquiries", { auth: true });
 }

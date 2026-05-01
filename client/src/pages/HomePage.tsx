@@ -1,173 +1,126 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getHomeData } from "../lib/api";
-import type { HomeData } from "../types";
-import { CarCard } from "../components/CarCard";
-import { localizeContent, localizeService, useLanguage } from "../lib/i18n";
+import { getContent } from "../lib/api";
+import type { SiteContent } from "../types";
+import { useLanguage } from "../lib/i18n";
+import { SERVICE_PACKAGES, formatPrice } from "../lib/services-data";
+import { getPackagePrice, usePricing } from "../lib/pricing";
+
+type ContactJson = {
+  phone?: string;
+};
 
 export function HomePage() {
-  const [data, setData] = useState<HomeData | null>(null);
-  const [error, setError] = useState("");
   const { language, t } = useLanguage();
+  const pricing = usePricing();
+  const [contact, setContact] = useState<SiteContent<ContactJson> | null>(null);
 
   useEffect(() => {
-    getHomeData()
-      .then(setData)
-      .catch((err: Error) => setError(err.message));
+    getContent<ContactJson>("contact_page")
+      .then((payload) => setContact(payload.content))
+      .catch(() => setContact(null));
   }, []);
 
-  if (error) {
-    return <div className="container-shell py-20 text-center text-ember">{error}</div>;
-  }
+  const phone = contact?.jsonData?.phone;
 
-  if (!data) {
-    return <div className="container-shell py-20 text-center text-slate-500">{t("home.loading")}</div>;
-  }
-
-  const homepageContent = localizeContent("homepage_sections", data.homepageContent, language) as HomeData["homepageContent"];
-  const aboutContent = localizeContent("about_page", data.aboutContent, language) as HomeData["aboutContent"];
-  const locationContent = localizeContent("location_page", data.locationContent, language) as HomeData["locationContent"];
-  const contactContent = localizeContent("contact_page", data.contactContent, language) as HomeData["contactContent"];
-  const services = data.services.map((service) => localizeService(service, language));
+  const steps = [
+    { title: t("home.process.s1.title"), copy: t("home.process.s1.copy") },
+    { title: t("home.process.s2.title"), copy: t("home.process.s2.copy") },
+    { title: t("home.process.s3.title"), copy: t("home.process.s3.copy") },
+    { title: t("home.process.s4.title"), copy: t("home.process.s4.copy") }
+  ];
 
   return (
-    <div className="space-y-16 pb-16 pt-8 sm:space-y-20">
+    <div className="space-y-24 pb-24 pt-16 sm:space-y-32 sm:pt-24">
+      {/* HERO */}
       <section className="container-shell">
-        <div className="panel overflow-hidden bg-hero-glow p-6 sm:p-8 lg:p-12">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="space-y-6">
-              <span className="eyebrow">{t("home.eyebrow")}</span>
-              <div className="space-y-4">
-                <h1 className="font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl lg:text-6xl">
-                  {homepageContent?.title || t("home.fallbackTitle")}
-                </h1>
-                <p className="max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-                  {homepageContent?.content}
-                </p>
-              </div>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <Link to="/cars" className="primary-button">
-                  {t("home.exploreCars")}
-                </Link>
-                <Link to="/services" className="secondary-button">
-                  {t("home.viewServices")}
-                </Link>
-              </div>
-              <div className="grid gap-4 pt-4 sm:grid-cols-3">
-                {(homepageContent?.jsonData?.stats || []).map((stat: { label: string; value: string }) => (
-                  <div key={stat.label} className="rounded-[24px] border border-white/60 bg-white/75 p-4">
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-600">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid gap-4">
-              <div className="rounded-[32px] bg-ink p-6 text-white">
-                <p className="text-sm uppercase tracking-[0.2em] text-white/60">{t("home.whyChooseUs")}</p>
-                <div className="mt-5 space-y-4">
-                  {(homepageContent?.jsonData?.whyChooseUs || []).map((item: string) => (
-                    <div key={item} className="rounded-[24px] border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/80">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="rounded-[32px] bg-white p-6">
-                <p className="text-sm uppercase tracking-[0.2em] text-slate-500">{t("home.locationPreview")}</p>
-                <h2 className="mt-3 font-display text-2xl">{locationContent?.title}</h2>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{locationContent?.content}</p>
-                <p className="mt-4 text-sm font-semibold text-ember">
-                  {locationContent?.jsonData?.address || t("home.visitUsFallback")}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="container-shell">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="panel p-6 sm:p-8">
-            <span className="eyebrow">{t("home.aboutEyebrow")}</span>
-            <h2 className="section-title mt-4">{aboutContent?.title}</h2>
-            <p className="muted-copy mt-4">{aboutContent?.content}</p>
-            <div className="mt-6 grid gap-4">
-              <div className="rounded-[24px] bg-sand p-5">
-                <p className="font-semibold text-ink">
-                  {aboutContent?.jsonData?.missionTitle || "Our mission"}
-                </p>
-                <p className="mt-2 text-sm leading-7 text-slate-600">
-                  {aboutContent?.jsonData?.missionBody}
-                </p>
-              </div>
-              <Link to="/about" className="secondary-button w-fit">
-                {t("home.learnMore")}
-              </Link>
-            </div>
-          </div>
-
-          <div className="panel p-6 sm:p-8">
-            <span className="eyebrow">{t("home.servicesEyebrow")}</span>
-            <h2 className="section-title mt-4">{t("home.servicesTitle")}</h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {services.map((service) => (
-                <article key={service.id} className="rounded-[24px] border border-line bg-shell p-5">
-                  <h3 className="font-display text-xl">{service.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{service.description}</p>
-                </article>
-              ))}
-            </div>
-            <Link to="/services" className="secondary-button mt-6 w-fit">
-              {t("home.viewAllServices")}
+        <div className="max-w-3xl space-y-6">
+          <p className="text-sm font-medium text-slate">{t("home.eyebrow")}</p>
+          <h1 className="h-display">{t("home.title")}</h1>
+          <p className="lead">{t("home.copy")}</p>
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <Link to="/contact" className="btn-primary">
+              {t("home.primaryCta")}
             </Link>
+            <Link to="/services" className="btn-secondary">
+              {t("home.secondaryCta")}
+            </Link>
+            {phone ? (
+              <a href={`tel:${phone}`} className="ml-2 text-sm font-medium text-slate hover:text-ink">
+                {phone}
+              </a>
+            ) : null}
           </div>
         </div>
       </section>
 
-      <section className="container-shell space-y-6">
+      {/* SERVICES */}
+      <section className="container-shell">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <span className="eyebrow">{t("home.featuredEyebrow")}</span>
-            <h2 className="section-title mt-4">{t("home.featuredTitle")}</h2>
+          <div className="max-w-xl space-y-3">
+            <h2 className="h-section">{t("home.services.title")}</h2>
+            <p className="body-copy">{t("home.services.copy")}</p>
           </div>
-          <Link to="/cars" className="secondary-button">
-            {t("home.seeAllVehicles")}
+          <Link to="/services" className="btn-link">
+            {t("home.services.viewAll")} <span aria-hidden>→</span>
           </Link>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {data.featuredCars.map((car) => (
-            <CarCard key={car.id} car={car} />
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          {SERVICE_PACKAGES.map((pkg) => (
+            <Link key={pkg.slug} to="/services" className="card-hover group flex flex-col">
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="h-card group-hover:text-accent">{pkg.title[language]}</h3>
+                <p className="meta">
+                  {t("services.fromLabel")}{" "}
+                  <span className="font-semibold text-ink">
+                    {formatPrice(getPackagePrice(pricing, pkg.slug, "small"), language)}
+                  </span>
+                </p>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-slate">{pkg.tagline[language]}</p>
+              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-ink">
+                {t("services.book")} <span aria-hidden>→</span>
+              </span>
+            </Link>
           ))}
         </div>
       </section>
 
+      {/* PROCESS */}
       <section className="container-shell">
-        <div className="panel bg-ink p-6 text-white sm:p-8 lg:p-10">
-          <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-            <div>
-              <span className="eyebrow border-white/10 bg-white/10 text-white">{t("home.contactEyebrow")}</span>
-              <h2 className="mt-4 font-display text-3xl sm:text-4xl">{t("home.contactTitle")}</h2>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">
-                {t("home.contactCopy")}
-              </p>
-            </div>
+        <div className="max-w-xl space-y-3">
+          <h2 className="h-section">{t("home.process.title")}</h2>
+          <p className="body-copy">{t("home.process.copy")}</p>
+        </div>
+        <ol className="mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step, i) => (
+            <li key={step.title} className="space-y-2">
+              <p className="text-sm font-medium text-accent">0{i + 1}</p>
+              <h3 className="font-display text-base font-semibold">{step.title}</h3>
+              <p className="text-sm leading-relaxed text-slate">{step.copy}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
 
-            <div className="grid gap-3 rounded-[28px] bg-white/5 p-5">
-              <div className="rounded-[20px] border border-white/10 bg-white/5 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">{t("contact.call")}</p>
-                <p className="mt-2 text-lg font-semibold">{contactContent?.jsonData?.phone}</p>
-              </div>
-              {contactContent?.jsonData?.email ? (
-                <div className="rounded-[20px] border border-white/10 bg-white/5 p-4">
-                  <p className="text-xs uppercase tracking-[0.2em] text-white/50">{t("contact.email")}</p>
-                  <p className="mt-2 text-lg font-semibold">{contactContent?.jsonData?.email}</p>
-                </div>
-              ) : null}
-              <Link to="/contact" className="primary-button mt-2">
-                {t("home.contactTeam")}
+      {/* CLOSING */}
+      <section className="container-shell">
+        <div className="rounded-card bg-ink p-10 text-paper sm:p-14">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7 space-y-4">
+              <h2 className="h-section text-paper">{t("closing.title")}</h2>
+              <p className="text-base leading-relaxed text-paper/70">{t("closing.copy")}</p>
+            </div>
+            <div className="lg:col-span-5 flex flex-wrap gap-3 lg:justify-end">
+              <Link to="/contact" className="btn-light-on-dark">
+                {t("closing.primary")}
               </Link>
+              {phone ? (
+                <a href={`tel:${phone}`} className="btn-outline-on-dark">
+                  {phone}
+                </a>
+              ) : null}
             </div>
           </div>
         </div>

@@ -1,72 +1,71 @@
-import { useEffect, useState } from "react";
-import { getContent } from "../lib/api";
-import type { SiteContent } from "../types";
-import { localizeContent, useLanguage } from "../lib/i18n";
-
-type AboutJson = {
-  missionTitle?: string;
-  missionBody?: string;
-  valuesTitle?: string;
-  values?: string[];
-  teamTitle?: string;
-  teamBody?: string;
-};
+import { Link } from "react-router-dom";
+import { useLanguage } from "../lib/i18n";
 
 export function AboutPage() {
-  const [content, setContent] = useState<SiteContent<AboutJson> | null>(null);
-  const [error, setError] = useState("");
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
 
-  useEffect(() => {
-    getContent<AboutJson>("about_page")
-      .then((payload) => setContent(payload.content))
-      .catch((err: Error) => setError(err.message));
-  }, []);
-
-  const localized = localizeContent("about_page", content, language) as SiteContent<AboutJson> | null;
+  const values = [
+    t("about.values.item1"),
+    t("about.values.item2"),
+    t("about.values.item3"),
+    t("about.values.item4")
+  ];
 
   return (
-    <div className="container-shell space-y-8 py-10">
-      <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
-        <div className="panel p-6 sm:p-8">
-          <span className="eyebrow">{t("about.eyebrow")}</span>
-          <h1 className="section-title mt-4">{localized?.title || "About Bilv\u00e5rd center i K\u00e4vlinge"}</h1>
-          <p className="muted-copy mt-5">{localized?.content}</p>
+    <div className="space-y-20 pb-24 pt-16 sm:space-y-24 sm:pt-24">
+      {/* HERO */}
+      <section className="container-shell">
+        <div className="max-w-3xl space-y-6">
+          <p className="text-sm font-medium text-slate">{t("about.eyebrow")}</p>
+          <h1 className="h-display">{t("about.title")}</h1>
+          <p className="lead">{t("about.lead")}</p>
         </div>
+      </section>
 
-        <div className="panel bg-ink p-6 text-white sm:p-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-white/60">
-            {localized?.jsonData?.missionTitle || "Our mission"}
+      {/* STORY */}
+      <section className="container-shell">
+        <div className="grid gap-10 lg:grid-cols-12">
+          <h2 className="h-section lg:col-span-5">{t("about.story.title")}</h2>
+          <p className="text-lg leading-relaxed text-slate lg:col-span-7">
+            {t("about.story.body")}
           </p>
-          <p className="mt-4 text-lg leading-8 text-white/80">{localized?.jsonData?.missionBody}</p>
         </div>
-      </div>
+      </section>
 
-      {error ? <div className="text-center text-ember">{error}</div> : null}
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="panel p-6 sm:p-8">
-          <h2 className="font-display text-3xl">{localized?.jsonData?.valuesTitle || t("about.valuesFallback")}</h2>
-          <div className="mt-6 grid gap-4">
-            {(localized?.jsonData?.values || []).map((value: string) => (
-              <div key={value} className="rounded-[24px] bg-sand p-5 text-sm leading-7 text-slate-700">
-                {value}
-              </div>
+      {/* VALUES */}
+      <section className="container-shell">
+        <div className="grid gap-10 lg:grid-cols-12">
+          <h2 className="h-section lg:col-span-5">{t("about.values.title")}</h2>
+          <ul className="lg:col-span-7 grid gap-4 sm:grid-cols-2">
+            {values.map((value, i) => (
+              <li key={value} className="flex gap-4">
+                <span className="text-sm font-medium text-accent">0{i + 1}</span>
+                <span className="text-base leading-relaxed">{value}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
+      </section>
 
-        <div className="panel p-6 sm:p-8">
-          <h2 className="font-display text-3xl">{localized?.jsonData?.teamTitle || "Built on trust"}</h2>
-          <p className="muted-copy mt-4">{localized?.jsonData?.teamBody}</p>
-          <div className="mt-8 rounded-[28px] bg-[linear-gradient(135deg,#f6e1cb_0%,#f8f5ef_60%,#e3e9f0_100%)] p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("about.presentation")}</p>
-            <p className="mt-3 text-sm leading-7 text-slate-700">
-              {t("about.presentationCopy")}
-            </p>
+      {/* CLOSING */}
+      <section className="container-shell">
+        <div className="rounded-card border border-line bg-soft p-10 sm:p-12">
+          <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7 space-y-3">
+              <h2 className="h-section">{t("closing.title")}</h2>
+              <p className="body-copy">{t("closing.copy")}</p>
+            </div>
+            <div className="lg:col-span-5 flex flex-wrap gap-3 lg:justify-end">
+              <Link to="/contact" className="btn-primary">
+                {t("closing.primary")}
+              </Link>
+              <Link to="/services" className="btn-secondary">
+                {t("nav.services")}
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { clearAdminAccess } from "../lib/api";
 import { buildAdminPath } from "../lib/admin";
 import { clearAuthToken } from "../lib/auth";
 import { useLanguage } from "../lib/i18n";
+import { BrandLogo } from "./BrandLogo";
 
 export function AdminLayout() {
   const navigate = useNavigate();
@@ -10,7 +11,8 @@ export function AdminLayout() {
   const languageLabel = language === "sv" ? "Sprak" : "Language";
   const navItems = [
     { label: t("admin.nav.overview"), to: buildAdminPath("/") },
-    { label: t("admin.nav.cars"), to: buildAdminPath("/cars") },
+    { label: t("admin.nav.pricing"), to: buildAdminPath("/pricing") },
+    { label: t("admin.nav.branding"), to: buildAdminPath("/branding") },
     { label: t("admin.nav.content"), to: buildAdminPath("/content") }
   ];
 
@@ -22,7 +24,7 @@ export function AdminLayout() {
             <div className="mb-6 rounded-[24px] bg-ink p-5 text-white">
               <p className="text-xs uppercase tracking-[0.2em] text-white/60">{t("admin.layout.title")}</p>
               <div className="mt-3 flex items-center gap-3">
-                <img src="/logo.png" alt={"Bilv\u00e5rd center i K\u00e4vlinge logo"} className="h-11 w-11 rounded-2xl object-cover" />
+                <BrandLogo size={44} className="rounded-2xl" />
                 <h1 className="font-display text-xl sm:text-2xl">{"Bilv\u00e5rd center i K\u00e4vlinge"}</h1>
               </div>
               <p className="mt-2 text-sm text-white/70">{t("admin.layout.copy")}</p>

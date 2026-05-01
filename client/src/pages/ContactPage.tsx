@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getContent, submitInquiry } from "../lib/api";
 import type { SiteContent } from "../types";
-import { localizeContent, normalizeExternalUrl, translateDay, translateHours, useLanguage } from "../lib/i18n";
+import { normalizeExternalUrl, translateDay, translateHours, useLanguage } from "../lib/i18n";
 
 type ContactJson = {
   phone?: string;
@@ -16,21 +16,23 @@ type ContactJson = {
 
 export function ContactPage() {
   const [content, setContent] = useState<SiteContent<ContactJson> | null>(null);
-  const [error, setError] = useState("");
+  const [formError, setFormError] = useState("");
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState("");
   const { language, t } = useLanguage();
 
   useEffect(() => {
+    // A content-load failure should not block the page — fail silently and
+    // let the form still work. The form's own submit error is tracked separately.
     getContent<ContactJson>("contact_page")
       .then((payload) => setContent(payload.content))
-      .catch((err: Error) => setError(err.message));
+      .catch(() => setContent(null));
   }, []);
 
   async function handleSubmit(formData: FormData) {
     setSending(true);
     setSuccess("");
-    setError("");
+    setFormError("");
 
     try {
       await submitInquiry({
@@ -42,113 +44,128 @@ export function ContactPage() {
       });
       setSuccess(t("contact.success"));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not submit the form.");
+      setFormError(err instanceof Error ? err.message : "Could not submit the form.");
     } finally {
       setSending(false);
     }
   }
 
-  const localized = localizeContent("contact_page", content, language) as SiteContent<ContactJson> | null;
+  const phone = content?.jsonData?.phone;
+  const email = content?.jsonData?.email;
+  const whatsapp = content?.jsonData?.whatsapp;
+  const address = content?.jsonData?.address;
+  const hours = content?.jsonData?.hours || [];
 
   return (
-    <div className="container-shell space-y-8 py-10">
-      <div className="panel p-6 sm:p-8">
-        <span className="eyebrow">{t("contact.eyebrow")}</span>
-        <h1 className="section-title mt-4">{localized?.title}</h1>
-        <p className="muted-copy mt-4 max-w-3xl">{localized?.content}</p>
-      </div>
+    <div className="space-y-20 pb-24 pt-16 sm:space-y-24 sm:pt-24">
+      {/* HERO */}
+      <section className="container-shell">
+        <div className="max-w-3xl space-y-6">
+          <p className="text-sm font-medium text-slate">{t("contact.eyebrow")}</p>
+          <h1 className="h-display">{t("contact.title")}</h1>
+          <p className="lead">{t("contact.copy")}</p>
+        </div>
+      </section>
 
-      <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="space-y-6">
-          <div className="panel p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("contact.call")}</p>
-            <a href={`tel:${localized?.jsonData?.phone || ""}`} className="mt-3 block font-display text-2xl text-ember">
-              {localized?.jsonData?.phone}
-            </a>
+      {/* FORM + DETAILS */}
+      <section className="container-shell">
+        <div className="grid gap-10 lg:grid-cols-12">
+          {/* Form */}
+          <div className="lg:col-span-7">
+            <form
+              className="grid gap-4"
+              onSubmit={(event) => {
+                event.preventDefault();
+                handleSubmit(new FormData(event.currentTarget));
+              }}
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
+                <input name="name" className="field" placeholder={t("contact.name")} required />
+                <input
+                  name="email"
+                  type="email"
+                  className="field"
+                  placeholder={t("contact.emailPlaceholder")}
+                  required
+                />
+              </div>
+              <input name="phone" className="field" placeholder={t("contact.phonePlaceholder")} />
+              <textarea
+                name="message"
+                className="field min-h-40 resize-none"
+                placeholder={t("contact.messagePlaceholder")}
+                required
+              />
+              <div className="flex flex-wrap items-center gap-4 pt-2">
+                <button type="submit" className="btn-primary" disabled={sending}>
+                  {sending ? t("contact.submitting") : t("contact.submit")}
+                </button>
+                <Link to="/services" className="btn-link">
+                  {t("contact.viewServices")} <span aria-hidden>→</span>
+                </Link>
+              </div>
+              {success ? <p className="text-sm text-pine">{success}</p> : null}
+              {formError ? <p className="text-sm text-accentDeep">{formError}</p> : null}
+            </form>
           </div>
 
-          <div className="panel p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("contact.email")}</p>
-            {localized?.jsonData?.email ? (
-              <a
-                href={`mailto:${localized?.jsonData?.email || ""}`}
-                className="mt-3 block font-display text-2xl text-ink"
-              >
-                {localized?.jsonData?.email}
+          {/* Side details */}
+          <aside className="lg:col-span-5 space-y-4">
+            {phone ? (
+              <a href={`tel:${phone}`} className="card-hover block">
+                <p className="text-xs font-semibold uppercase tracking-editorial text-slate">
+                  {t("contact.call")}
+                </p>
+                <p className="mt-2 font-display text-xl font-semibold">{phone}</p>
               </a>
-            ) : (
-              <p className="mt-3 text-sm text-slate-500">{t("contact.emailLater")}</p>
-            )}
-            <p className="mt-3 text-sm text-slate-500">{localized?.jsonData?.address}</p>
-          </div>
-
-          <div className="panel p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("contact.quickLinks")}</p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <Link to="/cars" className="secondary-button">
-                {t("contact.browseCars")}
-              </Link>
-              <Link to="/services" className="secondary-button">
-                {t("contact.viewServices")}
-              </Link>
-              {localized?.jsonData?.whatsapp ? (
-                <a
-                  href={normalizeExternalUrl(localized.jsonData.whatsapp)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="primary-button"
-                >
+            ) : null}
+            {email ? (
+              <a href={`mailto:${email}`} className="card-hover block">
+                <p className="text-xs font-semibold uppercase tracking-editorial text-slate">
+                  {t("contact.email")}
+                </p>
+                <p className="mt-2 font-display text-base font-medium">{email}</p>
+              </a>
+            ) : null}
+            {whatsapp ? (
+              <a
+                href={normalizeExternalUrl(whatsapp)}
+                target="_blank"
+                rel="noreferrer"
+                className="card-hover block"
+              >
+                <p className="text-xs font-semibold uppercase tracking-editorial text-slate">
                   {t("contact.whatsapp")}
-                </a>
-              ) : null}
-              {(localized?.jsonData?.socialLinks || []).filter((link) => link.label && link.url).map((link) => (
-                <a
-                  key={`${link.label}-${link.url}`}
-                  href={normalizeExternalUrl(link.url)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="secondary-button"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div className="panel p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("contact.businessHours")}</p>
-            <div className="mt-4 grid gap-3">
-              {(localized?.jsonData?.hours || []).map((row: { day: string; hours: string }) => (
-                <div key={row.day} className="flex items-center justify-between rounded-[18px] bg-sand px-4 py-3 text-sm text-slate-700">
-                  <span>{translateDay(row.day, language)}</span>
-                  <span className="font-semibold">{translateHours(row.hours, language)}</span>
+                </p>
+                <p className="mt-2 font-display text-base font-medium">{t("contact.whatsapp")}</p>
+              </a>
+            ) : null}
+            {address ? (
+              <div className="card">
+                <p className="text-xs font-semibold uppercase tracking-editorial text-slate">
+                  {t("contact.visitUs")}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed">{address}</p>
+              </div>
+            ) : null}
+            {hours.length > 0 ? (
+              <div className="card">
+                <p className="text-xs font-semibold uppercase tracking-editorial text-slate">
+                  {t("contact.businessHours")}
+                </p>
+                <div className="mt-3 divide-y divide-line">
+                  {hours.map((row) => (
+                    <div key={row.day} className="flex items-center justify-between py-2 text-sm">
+                      <span className="text-slate">{translateDay(row.day, language)}</span>
+                      <span className="font-medium">{translateHours(row.hours, language)}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
+            ) : null}
+          </aside>
         </div>
-
-        <div className="panel p-6 sm:p-8">
-          <h2 className="font-display text-3xl">{t("contact.sendMessage")}</h2>
-          <form
-            className="mt-6 grid gap-4"
-            onSubmit={(event) => {
-              event.preventDefault();
-              handleSubmit(new FormData(event.currentTarget));
-            }}
-          >
-            <input name="name" className="field" placeholder={t("contact.name")} required />
-            <input name="email" type="email" className="field" placeholder={t("contact.emailPlaceholder")} required />
-            <input name="phone" className="field" placeholder={t("contact.phonePlaceholder")} />
-            <textarea name="message" className="field min-h-40" placeholder={t("contact.messagePlaceholder")} required />
-            <button type="submit" className="primary-button" disabled={sending}>
-              {sending ? t("contact.submitting") : t("contact.submit")}
-            </button>
-            {success ? <p className="text-sm text-pine">{success}</p> : null}
-            {error ? <p className="text-sm text-ember">{error}</p> : null}
-          </form>
-        </div>
-      </div>
+      </section>
     </div>
   );
 }

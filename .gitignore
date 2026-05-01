@@ -3,10 +3,25 @@ dist
 .DS_Store
 *.log
 .env
+.env.local
 client/.env
+client/.env.local
 server/.env
+server/.env.local
 server/prisma/dev.db
 server/prisma/dev.db-journal
 server/uploads/cars/*
 !server/uploads/cars/.gitkeep
+server/uploads/branding/*
+!server/uploads/branding/.gitkeep
 
+# Claude / agent tooling
+.agents/
+skills-lock.json
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# TypeScript build cache
+*.tsbuildinfo

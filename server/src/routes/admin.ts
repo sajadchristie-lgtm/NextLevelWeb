@@ -6,7 +6,7 @@ import { prisma } from "../lib/prisma.js";
 import { signAdminAccessToken, signAdminToken } from "../lib/auth.js";
 import { serializeCar, serializeContent } from "../lib/serializers.js";
 import type { CarWithRelations } from "../lib/serializers.js";
-import { removeUploadedFile, toPublicUploadPath, upload } from "../lib/upload.js";
+import { brandingUpload, removeBrandingFile, removeUploadedFile, toPublicUploadPath, upload } from "../lib/upload.js";
 import { requireAdmin, requireAdminAccess, hasAdminAccess } from "../middleware/auth.js";
 import { config } from "../config.js";
 
@@ -552,6 +552,74 @@ router.put("/content/:key", async (request, response) => {
   response.json({ content: serializeContent(saved) });
 });
 
+router.post("/branding/logo", brandingUpload.single("logo"), async (request, response) => {
+  const file = request.file;
+  if (!file) {
+    response.status(400).json({ message: "No file uploaded." });
+    return;
+  }
+
+  const newUrl = toPublicUploadPath(file.path);
+  const existing = await prisma.siteContent.findUnique({ where: { key: "site_branding" } });
+  if (existing?.jsonData) {
+    try {
+      const previous = JSON.parse(existing.jsonData) as { logoUrl?: string };
+      if (previous.logoUrl && previous.logoUrl !== newUrl) {
+        await removeBrandingFile(previous.logoUrl);
+      }
+    } catch {
+      // ignore parse errors
+    }
+  }
+
+  const saved = await prisma.siteContent.upsert({
+    where: { key: "site_branding" },
+    update: {
+      title: "Site branding",
+      content: "Logo and other brand assets used across the public website.",
+      jsonData: JSON.stringify({ logoUrl: newUrl }),
+      isActive: true
+    },
+    create: {
+      key: "site_branding",
+      title: "Site branding",
+      content: "Logo and other brand assets used across the public website.",
+      jsonData: JSON.stringify({ logoUrl: newUrl }),
+      isActive: true
+    }
+  });
+
+  response.json({ content: serializeContent(saved), logoUrl: newUrl });
+});
+
+router.delete("/branding/logo", async (_request, response) => {
+  const existing = await prisma.siteContent.findUnique({ where: { key: "site_branding" } });
+  if (existing?.jsonData) {
+    try {
+      const previous = JSON.parse(existing.jsonData) as { logoUrl?: string };
+      if (previous.logoUrl) {
+        await removeBrandingFile(previous.logoUrl);
+      }
+    } catch {
+      // ignore parse errors
+    }
+  }
+
+  if (!existing) {
+    response.json({ content: null });
+    return;
+  }
+
+  const saved = await prisma.siteContent.update({
+    where: { key: "site_branding" },
+    data: {
+      jsonData: JSON.stringify({})
+    }
+  });
+
+  response.json({ content: serializeContent(saved) });
+});
+
 router.get("/inquiries", async (_request, response) => {
   const inquiries = await prisma.inquiry.findMany({
     orderBy: { createdAt: "desc" },
@@ -574,6 +642,11 @@ router.use((error: unknown, _request: Request, response: Response, next: NextFun
   }
 
   if (error instanceof Error && error.message.startsWith("Only image uploads")) {
+    response.status(400).json({ message: error.message });
+    return;
+  }
+
+  if (error instanceof Error && error.message.startsWith("Only PNG, JPG, WEBP, or SVG")) {
     response.status(400).json({ message: error.message });
     return;
   }

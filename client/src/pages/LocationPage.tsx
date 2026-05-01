@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getContent } from "../lib/api";
 import type { SiteContent } from "../types";
-import { localizeContent, translateDay, translateHours, useLanguage } from "../lib/i18n";
+import { translateDay, translateHours, useLanguage } from "../lib/i18n";
 
 type LocationJson = {
   address?: string;
@@ -13,69 +14,97 @@ type LocationJson = {
 
 export function LocationPage() {
   const [content, setContent] = useState<SiteContent<LocationJson> | null>(null);
-  const [error, setError] = useState("");
   const { language, t } = useLanguage();
 
   useEffect(() => {
     getContent<LocationJson>("location_page")
       .then((payload) => setContent(payload.content))
-      .catch((err: Error) => setError(err.message));
+      .catch(() => setContent(null));
   }, []);
 
-  const localized = localizeContent("location_page", content, language) as SiteContent<LocationJson> | null;
+  const phone = content?.jsonData?.phone;
+  const address = content?.jsonData?.address;
+  const hours = content?.jsonData?.hours || [];
+  const mapEmbedUrl = content?.jsonData?.mapEmbedUrl;
 
   return (
-    <div className="container-shell space-y-8 py-10">
-      <div className="panel p-6 sm:p-8">
-        <span className="eyebrow">{t("location.eyebrow")}</span>
-        <h1 className="section-title mt-4">{localized?.title}</h1>
-        <p className="muted-copy mt-4 max-w-3xl">{localized?.content}</p>
-      </div>
-
-      {error ? <div className="text-center text-ember">{error}</div> : null}
-
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="panel overflow-hidden">
-          {localized?.jsonData?.mapEmbedUrl ? (
-            <iframe
-              title="Business location map"
-              src={localized.jsonData.mapEmbedUrl}
-              className="min-h-[360px] w-full border-0"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          ) : (
-            <div className="flex min-h-[360px] items-center justify-center bg-sand text-slate-500">{t("location.mapUnavailable")}</div>
-          )}
+    <div className="space-y-20 pb-24 pt-16 sm:space-y-24 sm:pt-24">
+      {/* HERO */}
+      <section className="container-shell">
+        <div className="max-w-3xl space-y-6">
+          <p className="text-sm font-medium text-slate">{t("location.eyebrow")}</p>
+          <h1 className="h-display">{t("location.title")}</h1>
+          <p className="lead">{t("location.copy")}</p>
         </div>
+      </section>
 
-        <div className="space-y-6">
-          <div className="panel p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("location.address")}</p>
-            <p className="mt-3 font-display text-2xl">{localized?.jsonData?.address}</p>
-            <p className="mt-4 text-sm leading-7 text-slate-600">{localized?.jsonData?.notes}</p>
+      {/* MAP + DETAILS */}
+      <section className="container-shell">
+        <div className="grid gap-6 lg:grid-cols-12">
+          <div className="lg:col-span-7 overflow-hidden rounded-card border border-line bg-paper">
+            {mapEmbedUrl ? (
+              <iframe
+                title="Workshop location"
+                src={mapEmbedUrl}
+                className="min-h-[420px] w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            ) : (
+              <div className="flex min-h-[420px] items-center justify-center bg-soft text-slate">
+                {t("location.mapUnavailable")}
+              </div>
+            )}
           </div>
 
-          <div className="panel p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("location.hours")}</p>
-            <div className="mt-4 grid gap-3">
-              {(localized?.jsonData?.hours || []).map((row: { day: string; hours: string }) => (
-                <div key={row.day} className="flex items-center justify-between rounded-[18px] bg-sand px-4 py-3 text-sm text-slate-700">
-                  <span>{translateDay(row.day, language)}</span>
-                  <span className="font-semibold">{translateHours(row.hours, language)}</span>
-                </div>
-              ))}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="card">
+              <p className="text-xs font-semibold uppercase tracking-editorial text-slate">
+                {t("location.address")}
+              </p>
+              <p className="mt-3 font-display text-lg font-semibold leading-snug">{address}</p>
+              {content?.jsonData?.notes ? (
+                <p className="mt-3 text-sm leading-relaxed text-slate">{content.jsonData.notes}</p>
+              ) : null}
             </div>
-          </div>
 
-          <div className="panel p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("location.phoneShortcut")}</p>
-            <a href={`tel:${localized?.jsonData?.phone || ""}`} className="mt-3 block font-display text-2xl text-ember">
-              {localized?.jsonData?.phone}
-            </a>
+            <div className="card">
+              <p className="text-xs font-semibold uppercase tracking-editorial text-slate">
+                {t("location.hours")}
+              </p>
+              <div className="mt-3 divide-y divide-line">
+                {hours.map((row) => (
+                  <div key={row.day} className="flex items-center justify-between py-2.5 text-sm">
+                    <span className="text-slate">{translateDay(row.day, language)}</span>
+                    <span className="font-medium">{translateHours(row.hours, language)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {phone ? (
+              <a href={`tel:${phone}`} className="card-hover block">
+                <p className="text-xs font-semibold uppercase tracking-editorial text-slate">
+                  {t("location.phoneShortcut")}
+                </p>
+                <p className="mt-3 font-display text-xl font-semibold text-accent">{phone}</p>
+              </a>
+            ) : null}
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* CLOSING */}
+      <section className="container-shell">
+        <div className="flex flex-wrap items-center gap-4">
+          <Link to="/contact" className="btn-primary">
+            {t("nav.bookCTA")}
+          </Link>
+          <Link to="/services" className="btn-secondary">
+            {t("nav.services")}
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
