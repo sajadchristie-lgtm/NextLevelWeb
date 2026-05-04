@@ -160,3 +160,26 @@ export function resetAdminLogo() {
 export function getAdminInquiries() {
   return apiFetch<{ inquiries: Inquiry[] }>("/api/admin/inquiries", { auth: true });
 }
+
+export function deleteAdminInquiry(id: string) {
+  return apiFetch<{ message: string }>(`/api/admin/inquiries/${id}`, {
+    method: "DELETE",
+    auth: true
+  });
+}
+
+export function getAdminAccount() {
+  return apiFetch<{ user: AdminUser }>("/api/admin/account", { auth: true });
+}
+
+export function updateAdminAccount(payload: {
+  email?: string;
+  currentPassword: string;
+  newPassword?: string;
+}) {
+  return apiFetch<{ user: AdminUser; token: string | null }>("/api/admin/account", {
+    method: "PUT",
+    body: JSON.stringify(payload),
+    auth: true
+  });
+}

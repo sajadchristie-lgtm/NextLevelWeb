@@ -13,6 +13,7 @@ export function AdminLayout() {
     { label: t("admin.nav.overview"), to: buildAdminPath("/") },
     { label: t("admin.nav.pricing"), to: buildAdminPath("/pricing") },
     { label: t("admin.nav.branding"), to: buildAdminPath("/branding") },
+    { label: t("admin.nav.account"), to: buildAdminPath("/account") },
     { label: t("admin.nav.content"), to: buildAdminPath("/content") }
   ];
 

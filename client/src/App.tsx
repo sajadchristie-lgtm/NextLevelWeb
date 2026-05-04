@@ -14,12 +14,15 @@ import { AdminDashboardPage } from "./pages/AdminDashboardPage";
 import { AdminContentPage } from "./pages/AdminContentPage";
 import { AdminPricingPage } from "./pages/AdminPricingPage";
 import { AdminBrandingPage } from "./pages/AdminBrandingPage";
+import { AdminAccountPage } from "./pages/AdminAccountPage";
 import { ADMIN_ROUTE_PATH } from "./lib/admin";
 import { LanguageProvider } from "./lib/i18n";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 export default function App() {
   return (
     <LanguageProvider>
+      <ScrollToTop />
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<HomePage />} />
@@ -51,6 +54,7 @@ export default function App() {
             <Route index element={<AdminDashboardPage />} />
             <Route path="pricing" element={<AdminPricingPage />} />
             <Route path="branding" element={<AdminBrandingPage />} />
+            <Route path="account" element={<AdminAccountPage />} />
             <Route path="content" element={<AdminContentPage />} />
           </Route>
         </Route>

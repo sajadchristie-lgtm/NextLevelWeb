@@ -630,6 +630,90 @@ router.get("/inquiries", async (_request, response) => {
   response.json({ inquiries });
 });
 
+router.delete("/inquiries/:id", async (request, response) => {
+  const { id } = request.params;
+  try {
+    await prisma.inquiry.delete({ where: { id } });
+    response.json({ message: "Inquiry deleted." });
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("Record to delete does not exist")) {
+      response.status(404).json({ message: "Inquiry not found." });
+      return;
+    }
+    throw error;
+  }
+});
+
+const accountUpdateSchema = z
+  .object({
+    email: z.string().email().optional(),
+    currentPassword: z.string().min(1),
+    newPassword: z.string().min(8).optional()
+  })
+  .refine((data) => data.email !== undefined || data.newPassword !== undefined, {
+    message: "Provide a new email, a new password, or both."
+  });
+
+router.get("/account", async (_request, response) => {
+  const { sub } = response.locals.auth as { sub: string };
+  const user = await prisma.adminUser.findUnique({ where: { id: sub } });
+  if (!user) {
+    response.status(404).json({ message: "Account not found." });
+    return;
+  }
+  response.json({ user: { id: user.id, email: user.email, role: user.role } });
+});
+
+router.put("/account", async (request, response) => {
+  const { sub } = response.locals.auth as { sub: string };
+  const payload = accountUpdateSchema.parse(request.body);
+
+  const user = await prisma.adminUser.findUnique({ where: { id: sub } });
+  if (!user) {
+    response.status(404).json({ message: "Account not found." });
+    return;
+  }
+
+  const valid = await bcrypt.compare(payload.currentPassword, user.passwordHash);
+  if (!valid) {
+    response.status(401).json({ message: "Current password is incorrect." });
+    return;
+  }
+
+  if (payload.email && payload.email !== user.email) {
+    const existing = await prisma.adminUser.findUnique({ where: { email: payload.email } });
+    if (existing && existing.id !== user.id) {
+      response.status(409).json({ message: "That email is already in use." });
+      return;
+    }
+  }
+
+  const updateData: { email?: string; passwordHash?: string } = {};
+  if (payload.email && payload.email !== user.email) {
+    updateData.email = payload.email;
+  }
+  if (payload.newPassword) {
+    updateData.passwordHash = await bcrypt.hash(payload.newPassword, 12);
+  }
+
+  if (Object.keys(updateData).length === 0) {
+    response.json({ user: { id: user.id, email: user.email, role: user.role }, token: null });
+    return;
+  }
+
+  const updated = await prisma.adminUser.update({
+    where: { id: user.id },
+    data: updateData
+  });
+
+  const token = signAdminToken({ sub: updated.id, email: updated.email, role: updated.role });
+
+  response.json({
+    user: { id: updated.id, email: updated.email, role: updated.role },
+    token
+  });
+});
+
 router.use((error: unknown, _request: Request, response: Response, next: NextFunction) => {
   if (error instanceof SyntaxError) {
     response.status(400).json({ message: "Invalid JSON payload." });

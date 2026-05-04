@@ -15,6 +15,7 @@ type TranslationKey =
   | "admin.nav.overview"
   | "admin.nav.pricing"
   | "admin.nav.branding"
+  | "admin.nav.account"
   | "admin.nav.content"
   | "admin.layout.title"
   | "admin.layout.copy"
@@ -198,6 +199,7 @@ const translations: Record<Language, Record<TranslationKey, string>> = {
     "admin.nav.overview": "Overview",
     "admin.nav.pricing": "Pricing",
     "admin.nav.branding": "Branding",
+    "admin.nav.account": "Account",
     "admin.nav.content": "Content",
     "admin.layout.title": "Admin",
     "admin.layout.copy": "Manage services and public content from one place.",
@@ -380,6 +382,7 @@ const translations: Record<Language, Record<TranslationKey, string>> = {
     "admin.nav.overview": "Översikt",
     "admin.nav.pricing": "Priser",
     "admin.nav.branding": "Logotyp",
+    "admin.nav.account": "Konto",
     "admin.nav.content": "Innehåll",
     "admin.layout.title": "Admin",
     "admin.layout.copy": "Hantera tjänster och publikt innehåll på ett ställe.",
