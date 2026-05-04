@@ -34,6 +34,10 @@ export function PublicLayout() {
     { label: t("nav.contact"), to: "/contact" }
   ];
 
+  function scrollTop() {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }
+
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-30 border-b border-line bg-mist/85 backdrop-blur">
@@ -41,7 +45,10 @@ export function PublicLayout() {
           <Link
             to="/"
             className="flex items-center gap-2.5"
-            onClick={() => setMenuOpen(false)}
+            onClick={() => {
+              setMenuOpen(false);
+              scrollTop();
+            }}
           >
             <BrandLogo size={36} className="rounded-edge" />
             <span className="font-display text-base font-semibold tracking-tight">
@@ -55,6 +62,7 @@ export function PublicLayout() {
                 key={item.to}
                 to={item.to}
                 end={item.to === "/"}
+                onClick={scrollTop}
                 className={({ isActive }) =>
                   `px-3 py-2 text-sm font-medium transition ${
                     isActive ? "text-onyx" : "text-slate hover:text-onyx"
@@ -85,7 +93,7 @@ export function PublicLayout() {
                 {t("lang.en")}
               </button>
             </div>
-            <Link to="/contact" className="btn-primary ml-3">
+            <Link to="/contact" className="btn-primary ml-3" onClick={scrollTop}>
               {t("nav.bookCTA")}
             </Link>
           </nav>
@@ -111,7 +119,10 @@ export function PublicLayout() {
                 key={item.to}
                 to={item.to}
                 end={item.to === "/"}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => {
+                  setMenuOpen(false);
+                  scrollTop();
+                }}
                 className={({ isActive }) =>
                   `rounded-edge px-3 py-3 text-sm font-medium transition ${
                     isActive ? "bg-onyx text-mist" : "text-slate"
@@ -144,7 +155,10 @@ export function PublicLayout() {
             </div>
             <Link
               to="/contact"
-              onClick={() => setMenuOpen(false)}
+              onClick={() => {
+                setMenuOpen(false);
+                scrollTop();
+              }}
               className="btn-primary mt-3 justify-center"
             >
               {t("nav.bookCTA")}
@@ -179,7 +193,7 @@ export function PublicLayout() {
               <ul className="mt-4 space-y-2 text-sm text-slate">
                 {navItems.map((item) => (
                   <li key={item.to}>
-                    <Link to={item.to} className="transition hover:text-onyx">
+                    <Link to={item.to} onClick={scrollTop} className="transition hover:text-onyx">
                       {item.label}
                     </Link>
                   </li>
@@ -214,7 +228,7 @@ export function PublicLayout() {
               <p className="text-xs font-semibold uppercase tracking-editorial text-slate">
                 {t("footer.visit")}
               </p>
-              <Link to="/contact" className="btn-primary mt-4">
+              <Link to="/contact" onClick={scrollTop} className="btn-primary mt-4">
                 {t("nav.bookCTA")}
               </Link>
             </div>
