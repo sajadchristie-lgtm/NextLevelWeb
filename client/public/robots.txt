@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bilvardkavlinge.netlify.app/sitemap.xml
